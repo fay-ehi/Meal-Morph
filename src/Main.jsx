@@ -1,14 +1,16 @@
+import React from "react";
 export default function Main() {
-  const ingredients = ["Pepper", "Onion", "Salt"];
-  const ingredientList = ingredients.map((ingredient) => <li>{ingredient}</li>);
+  const ingredientsList = ["Pepper", "Onion", "Salt"];
+  const [ingredients, setIngredients] = React.useState(ingredientsList);
+
+  const ingredientListElement = ingredients.map((ingredient) => (
+    <li>{ingredient}</li>
+  ));
   function PopUp(event) {
     event.preventDefault();
-    alert("submitted");
+    setIngredients((prevIngredients) => [...prevIngredients, newIngredients]);
     let formData = new FormData(event.currentTarget);
     let newIngredients = formData.get("ingredient");
-    ingredients.push(newIngredients);
-
-    alert(ingredients);
   }
   return (
     <>
@@ -22,7 +24,7 @@ export default function Main() {
         <button className="submitButton">+ Add Ingredients</button>
       </form>
 
-      <ul>{ingredientList}</ul>
+      <ul>{ingredientListElement}</ul>
     </>
   );
 }
