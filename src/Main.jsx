@@ -1,12 +1,28 @@
 import React from "react";
 import Ingredient from "./ingrdient";
 import Recipe from "./recipe";
+import getRecipeFromMistral from "./ai";
 export default function Main() {
   const [ingredients, setIngredients] = React.useState([
     "rice",
     "beans",
     "vegetable",
   ]);
+
+  const [aiRecipe, setaiRecipe] = React.useEffect(getRecipeFromMistral);
+  const ingredientArr = aiRecipe.map((ingr) => (
+    <getRecipeFromMistral ingredientsArr={ingr.ingredients} />
+  ));
+
+  const [recipeShown, setrecipeShown] = React.useState(false);
+
+  function showRecipe(event) {
+    event.preventDefault();
+
+    setaiRecipe(getRecipeFromMistral);
+
+    setrecipeShown((prevShow) => !prevShow);
+  }
 
   const ingredientListElement = ingredients.map((ingredient) => (
     <li>{ingredient}</li>
@@ -19,11 +35,6 @@ export default function Main() {
     if (newIngredients.length > 0) {
       setIngredients((prevIngredients) => [...prevIngredients, newIngredients]);
     }
-  }
-  const [recipeShown, setrecipeShown] = React.useState(false);
-  function showRecipe(event) {
-    event.preventDefault();
-    setrecipeShown((prevShow) => !prevShow);
   }
 
   return (
@@ -41,7 +52,7 @@ export default function Main() {
         <Ingredient ingr={ingredientListElement} click={showRecipe} />
       ) : null}
 
-      {recipeShown && <Recipe />}
+      {recipeShown && { ingredientArr }}
     </>
   );
 }
