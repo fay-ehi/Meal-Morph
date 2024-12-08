@@ -17,4 +17,4 @@ export default function Ingredient(props) {
     </section>
   );
 }
-//   <ul className="ingredientList">{props.ingr}</ul>;
+
