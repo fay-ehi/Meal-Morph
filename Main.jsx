@@ -12,9 +12,16 @@ export default function Main() {
     setRecipe(recipeMarkdown);
   }
 
-  function addIngredient(formData) {
-    const newIngredient = formData.get("ingredient");
-    setIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
+ 
+   
+  function addIngredient(event) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+   const newIngredient = formData.get("ingredient");
+    event.currentTarget.reset();
+    if (newIngredient.length > 0) {
+      setIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
+    }
   }
 
   return (
